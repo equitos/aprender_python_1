@@ -41,7 +41,7 @@ class sql:
             update {tabela}
             set {key} = ?
             where id = ?               
-            '''),(valor, id,)
+            ''',(valor, id,))
             cursor.connection.commit()
 
 class panilha:        
@@ -68,13 +68,5 @@ class panilha:
 
 
 
-
-a = panilha(get_conexao.conexao_step(), get_lista_player())
-a.new_panilha(get_lista_paramitos())
-p = get_lista_player()
-p = p[0]
-cursor_a = a.get_curso()
-
-sql.add_valor(cursor_a, p, 0, 'vida', 100)
 
 
