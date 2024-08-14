@@ -1,6 +1,5 @@
 #cria planilhas
 
-from basic import *
 import sqlite3
 import os
 
@@ -10,11 +9,11 @@ class sql:
         self.conexao = conexao
         self.cursor = self.conexao.cursor()
 
-    def where_is(cursor, tabela, coluna, valor):
+    def where_is(cursor, tabela, key, valor):
         achar = cursor.execute(f'''
         select 0
         from {tabela}
-        where {coluna} = ?               
+        where {key} = ?               
         ''', (valor,))
 
         achar = achar.fetchall()
@@ -43,6 +42,18 @@ class sql:
             where id = ?               
             ''',(valor, id,))
             cursor.connection.commit()
+        
+    def get_valor(cursor, tabela, id, key):
+        valor = cursor.execute(f'''
+        select 0
+        from {tabela}
+        where {key} = ?               
+        ''', (valor,))
+
+        valor = valor.fetchall()
+        valor = valor[0]
+        print(valor)
+
 
 class panilha:        
     def __init__(self, conexao, player):
@@ -57,16 +68,13 @@ class panilha:
         return self.conexao
 
     def new_panilha(self, lista):
-        for player in self.player:
-            try:
-                self.cursor.execute(f"""
-                CREATE TABLE {player} (id TEXT PRIMARY KEY, {lista})
-                """)
-                self.conexao.commit()
-            except:
-                "erro de criação"
-
-
-
-
+        if lista != 'nan':
+            for player in self.player:
+                try:
+                    self.cursor.execute(f"""
+                    CREATE TABLE {player} (id TEXT PRIMARY KEY, {lista})
+                    """)
+                    self.conexao.commit()
+                except:
+                    "erro de criação"
 
